@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Be My Valentine?</title>
+
+<style>
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#fce4ec;
+font-family:Impact, Arial Black, sans-serif;
+overflow:hidden;
+}
+
+#container{
+background:white;
+padding:25px;
+border-radius:20px;
+width:85%;
+max-width:400px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+z-index:10;
+}
+
+iframe{
+width:100%;
+height:250px;
+border:none;
+}
+
+.buttons{
+display:flex;
+gap:30px;
+justify-content:center;
+margin-top:15px;
+min-height:80px;
+}
+
+button{
+padding:15px 30px;
+font-size:1.4rem;
+border:4px solid black;
+border-radius:12px;
+cursor:pointer;
+transition:.3s;
+position:relative;
+}
+
+#yesBtn{background:#00ff00;}
+#noBtn{background:red;color:white;}
+
+.hidden{display:none;}
+
+.floating{
+position:fixed;
+color:#ff0055;
+font-size:2rem;
+text-shadow:2px 2px white;
+animation:float 3s forwards;
+pointer-events:none;
+z-index:99999;
+}
+
+@keyframes float{
+0%{transform:scale(0);opacity:0;}
+20%{transform:scale(1);opacity:1;}
+80%{opacity:1;}
+100%{transform:translateY(-150px);opacity:0;}
+}
+
+.confetti{
+position:fixed;
+width:10px;
+height:10px;
+animation:fall 3s linear forwards;
+z-index:99999;
+}
+
+@keyframes fall{
+to{transform:translateY(110vh) rotate(720deg);}
+}
+</style>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="ask">
+<div id="gifBox">
+<!-- 🌸 FLOWER CAT START -->
+<iframe src="https://tenor.com/embed/7790247544981706067"></iframe>
+</div>
+
+<h1>Will you be my Valentine?</h1>
+
+<div class="buttons">
+<button id="yesBtn" onclick="celebrate()">YES</button>
+<button id="noBtn" onclick="handleNo()">NO</button>
+</div>
+</div>
+
+<div id="success" class="hidden">
+<iframe src="https://tenor.com/embed/10804346947536782797"></iframe>
+<h1>YAYYYY ❤️ MUEHHEHEHHEHEHE SEE YOU ON VALENTINE'S CUTIEEE </h1>
+</div>
+
+</div>
+
+<script>
+let clicks = 0;
+
+const gifBox = document.getElementById("gifBox");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+
+const gifs = [
+"8334429843875606224",
+"5454889781643953619",
+"18116533612288367470",
+"17190162121303461099",
+"8615369927532568408",
+"15637283",
+"6790593549618684130",
+"12366897846740217072",
+"14731182630494073988",
+"2978752928554125853"
+];
+
+const phrases = [
+"SIDE EYE 😒",
+"LUHHH",
+"I'M ACTUALLY CRYING",
+"HUHUHUHUHUUHUHU",
+"ARE YOU BEING FR",
+"ARE YOU SURE SURE?",
+"WALA NA IIYAK NA AKO",
+"PLEASEEEE"
+];
+
+function floatText(text){
+const span = document.createElement("span");
+span.className = "floating";
+span.innerText = text;
+span.style.left = Math.random() * (window.innerWidth - 200) + "px";
+span.style.top = Math.random() * (window.innerHeight - 100) + "px";
+document.body.appendChild(span);
+setTimeout(() => span.remove(), 3000);
+}
+
+function randomMove(btn){
+btn.style.position="fixed";
+btn.style.left=Math.random()*(window.innerWidth-120)+"px";
+btn.style.top=Math.random()*(window.innerHeight-60)+"px";
+}
+
+function handleNo(){
+clicks++;
+
+gifBox.innerHTML =
+`<iframe src="https://tenor.com/embed/${gifs[clicks % gifs.length]}"></iframe>`;
+
+floatText(phrases[clicks % phrases.length]);
+
+// YES grows but does NOT fullscreen
+yesBtn.style.transform = `scale(${1 + clicks * 0.4})`;
+
+// BOTH buttons move now
+randomMove(noBtn);
+randomMove(yesBtn);
+}
+
+function celebrate(){
+document.getElementById("ask").classList.add("hidden");
+document.getElementById("success").classList.remove("hidden");
+document.body.style.background = "#ff4d6d";
+confetti();
+}
+
+function confetti(){
+for(let i = 0; i < 150; i++){
+const c = document.createElement("div");
+c.className = "confetti";
+c.style.left = Math.random() * window.innerWidth + "px";
+c.style.background = `hsl(${Math.random() * 360},100%,50%)`;
+c.style.animationDuration = 2 + Math.random() * 3 + "s";
+document.body.appendChild(c);
+setTimeout(() => c.remove(), 5000);
+}
+}
+</script>
+
+</body>
+</html>
